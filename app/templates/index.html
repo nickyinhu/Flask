@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block page_content %}
+      <div class="jumbotron">
+        <h1>Hu's Simple Blog</h1>
+        <p class="lead">A simple blog web application built with Python, Flask Framework, Bootstrap, and SQLite</p>
+      </div>
+<div class="page-header">
+    <h1>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Friend, Welcome{% endif %}!</h1>
+</div>
+<div>
+    {% if current_user.can(Permission.WRITE_ARTICLES) %}
+    {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+<div class="post-tabs">
+    <ul class="nav nav-tabs">
+        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">All</a></li>
+        {% if current_user.is_authenticated() %}
+        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">Followers</a></li>
+        {% endif %}
+    </ul>
+    {% include '_posts.html' %}
+</div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+    <div class='container'>
+        <p>Site powered by <a href="http://flask.pocoo.org">Flask</a> and hosted by <a href="http://aws.amazon.com/">AWS EC2.</a></a></p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
