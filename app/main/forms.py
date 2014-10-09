@@ -12,10 +12,10 @@ class NameForm(Form):
     submit = SubmitField('Submit')
 
 class ContactForm(Form):
-    name = StringField('What is your name?', validators=[Required()])
-    email = StringField('What is your email?', validators=[Required(), Length(1, 64),
+    name = StringField('Name', validators=[Required()])
+    email = StringField('Email', validators=[Required(), Length(1, 64),
                                              Email()])
-    message = PageDownField("What you want to say to me?", validators=[Required()])
+    message = PageDownField("Comment", validators=[Required()])
     submit = SubmitField('Send')
 
 class EditProfileForm(Form):
