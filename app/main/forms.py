@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
+from wtforms import StringField, TextField, TextAreaField, BooleanField, SelectField,\
     SubmitField
 from wtforms.validators import Required, Length, Email, Regexp
 from wtforms import ValidationError
@@ -11,6 +11,12 @@ class NameForm(Form):
     name = StringField('What is your name?', validators=[Required()])
     submit = SubmitField('Submit')
 
+class ContactForm(Form):
+    name = StringField('What is your name?', validators=[Required()])
+    email = StringField('What is your email?', validators=[Required(), Length(1, 64),
+                                             Email()])
+    message = PageDownField("What you want to say to me?", validators=[Required()])
+    submit = SubmitField('Send')
 
 class EditProfileForm(Form):
     name = StringField('Real name', validators=[Length(0, 64)])

@@ -1,0 +1,6 @@
+Hu Yin,
+A new message came in
+Name: {{ name }}
+Email: {{ email }}
+Message:
+{{ message }}

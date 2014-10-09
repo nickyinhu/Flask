@@ -3,9 +3,10 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
+from .forms import ContactForm, EditProfileForm, EditProfileAdminForm, PostForm,\
     CommentForm
 from .. import db
+from ..email import send_email
 from ..models import Permission, Role, User, Post, Comment
 from ..decorators import admin_required, permission_required
 
@@ -31,6 +32,18 @@ def server_shutdown():
     shutdown()
     return 'Shutting down...'
 
+@main.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        message = form.message.data
+        send_email('huyin8@gmail.com', 'Message from my blog',
+                    'message',name=name, email=email)
+        flash('Your message has been sent to Hu Yin, thanks')
+        return redirect(url_for('main.index'))
+    return render_template('/contact.html', form = form)
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
