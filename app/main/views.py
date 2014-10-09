@@ -40,7 +40,7 @@ def contact():
         email = form.email.data
         message = form.message.data
         send_email('huyin8@gmail.com', 'Message from my blog',
-                    'message',name=name, email=email)
+                    'message',name=name, email=email, message=message)
         flash('Your message has been sent to Hu Yin, thanks')
         return redirect(url_for('main.index'))
     return render_template('/contact.html', form = form)
